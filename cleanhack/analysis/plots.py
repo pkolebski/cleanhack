@@ -39,6 +39,25 @@ def get_plots():
     user_mentions_org_loc = example_data.groupby(['user_name'])[
         'mentioned_organizations', 'mentioned_locations'].sum().reset_index()
 
+    def to_flat_list(l):
+        result = []
+        for e in l:
+            l = [w for w in e.split("'") if w not in ['[', ']', '', '[]']]
+            result.extend(l)
+
+        result = {e for e in result if not e.startswith('@')}
+        return result
+
+    user_mentions_org_loc.mentioned_organizations = user_mentions_org_loc.mentioned_organizations.apply(
+        to_flat_list)
+    user_mentions_org_loc.mentioned_locations = user_mentions_org_loc.mentioned_locations.apply(
+        to_flat_list)
+
+    # user_mentions_org_loc
+    #
+    # user_mentions_org_loc = example_data.groupby(['user_name'])[
+    #     'mentioned_organizations', 'mentioned_locations'].sum().reset_index()
+
     user_sentiments = example_data.groupby(['user_name', 'sentiment']).count()[
         'tweet_id'].reset_index()
     user_sentiments = user_sentiments.rename(
@@ -56,4 +75,4 @@ def get_plots():
                     'other'],
                  title="Topics of tweets", height=800)
 
-    return fig0, fig1, fig2
+    return user_mentions_org_loc, fig0, fig1, fig2
