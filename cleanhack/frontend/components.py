@@ -51,6 +51,7 @@ def analysis():
     st.plotly_chart(charts[1])
     st.plotly_chart(charts[2])
     st.plotly_chart(charts[3])
+    st.plotly_chart(charts[4])
     st.dataframe(charts[0])
 
 
@@ -102,6 +103,7 @@ def get_plots():
     user_emotions = example_data.groupby(['user_name', 'emotion']).sum()['tweet_id'].reset_index()
     user_emotions = user_emotions.rename(
         columns={"tweet_id": "Number of tweets", 'user_name': 'User name', 'emotion': 'Emotion'})
+    user_emotions = user_emotions[user_emotions.Emotion != 'True']
 
     user_mentions_org_loc = example_data.groupby(['user_name'])[
         'mentioned_organizations', 'mentioned_locations'].sum().reset_index()
@@ -134,12 +136,16 @@ def get_plots():
     fig0 = px.bar(user_sentiments, x="User name", y="Number of tweets",
                  color="Sentiment", title="Number of users' tweets and sentiments", height=700)
 
-    fig1 = px.bar(user_popularity, x="User name", y=['Number of Followers'],
+    fig1 = px.bar(user_emotions, x="User name", y="Number of tweets",
+                 color="Emotion", title="Number of users' tweets and emotions", height=700)
+
+    fig2 = px.bar(user_popularity, x="User name", y=['Number of Followers'],
                  title="Users' connections", barmode='group')
 
-    fig2 = px.bar(user_topics, x="User name",
+    fig3 = px.bar(user_topics, x="User name",
                  y=['energy', 'clean energy', 'photovoltaics', 'gas', 'topic_nuclear', 'coal',
                     'other'],
                  title="Topics of tweets", height=800)
 
-    return user_mentions_org_loc, fig0, fig1, fig2
+    return user_mentions_org_loc, fig0, fig1, fig2, fig3
+
