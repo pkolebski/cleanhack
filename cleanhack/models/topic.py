@@ -1,5 +1,4 @@
 import re
-from collections import defaultdict
 from typing import Dict, List
 
 import nltk
@@ -27,7 +26,7 @@ class Topics(Model):
             }
 
     def get_prediction(self, text: str, normalize: bool = True, threshold: float = 0.3):
-        scores = defaultdict(int)
+        scores = dict.fromkeys(self.keywords, 0)
         text = re.sub(r"[^A-Za-z\'\-]+", " ", text)
         text = set([self.model.lemmatize(w) for w in text.split()])
         for k, keywords in self.keywords.items():
@@ -37,6 +36,10 @@ class Topics(Model):
 
         if (v_sum := sum(scores.values())) > 0 and normalize:
             scores = {k: 1 if v / v_sum >= threshold else 0 for k, v in scores.items()}
+            scores['other'] = 0
+        else:
+            scores = dict.fromkeys(self.keywords, 0)
+            scores['other'] = 1
         return scores
 
 
