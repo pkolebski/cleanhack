@@ -1,3 +1,4 @@
 ### Libraries and frameworks ###
+transformers[torch]
 spacy
 pandas
