@@ -15,14 +15,14 @@ class Stance(Model):
                       tweet.topic_gas or tweet.topic_nuclear
         if tweet.sentiment == 'positive' and good_energy and \
                 not tweet.topic_coal:
-            return 1
+            return 'for'
         if tweet.sentiment == 'positive' and tweet.topic_coal and \
                 not good_energy:
-            return -1
+            return 'against'
         if tweet.sentiment == 'negative' and good_energy and not \
                 tweet.topic_coal:
-            return -1
+            return 'against'
         if tweet.sentiment == 'negative' and tweet.topic_coal and \
                 not good_energy:
-            return 1
-        return 0
+            return 'for'
+        return 'neutral'

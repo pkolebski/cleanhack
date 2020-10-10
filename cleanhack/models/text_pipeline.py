@@ -25,13 +25,11 @@ class TextPipeline(Model):
         locations, organisations = self.ner(texts)
         sentiment = [sent[0]['label'].lower() for sent in self.sentiment(texts)]
         emotion = self.emotions(texts)
-        stance = self.stance(args[0])
         result = {
             'mentioned_locations': list(locations),
             'mentioned_organizations': list(organisations),
             'sentiment': sentiment,
             'emotion': emotion,
-            'stance': stance,
         }
         result.update(topics)
         return result
@@ -39,15 +37,16 @@ class TextPipeline(Model):
     def predict(self, dataset: pd.DataFrame, text_col_name='text', *args,
                 **kwargs):
         texts = dataset[text_col_name]
-        model_results = pd.DataFrame(self.get_prediction(texts,
-                                                         dataset[[
-                                                             'topic_clean_energy',
-                                                             'topic_photovoltaics',
-                                                             'topic_gas',
-                                                             'topic_nuclear',
-                                                             'topic_coal',
-                                                             'sentiment']]))
+        model_results = pd.DataFrame(self.get_prediction(texts, ))
         dataset = dataset.join(model_results)
+        stance = self.stance(dataset[[
+            'topic_clean_energy',
+            'topic_photovoltaics',
+            'topic_gas',
+            'topic_nuclear',
+            'topic_coal',
+            'sentiment']])
+        dataset = dataset.join(pd.DataFrame({'stance': stance}))
         return dataset
 
     @staticmethod
