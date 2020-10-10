@@ -1,1 +1,4 @@
 ### Libraries and frameworks ###
+pandas
+matplotlib
+plotly
