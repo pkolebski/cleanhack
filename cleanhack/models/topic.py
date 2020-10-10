@@ -16,13 +16,14 @@ class Topics(Model):
             self.keywords = keywords
         else:
             self.keywords = {
-                'energy': ['energy', 'fuel', 'power'],
-                'clean energy': ['photovoltaic', 'wind', 'biomass', 'eco-friendly', 'ecology',
-                                 'clean', 'solar', 'renewable', 'green', 'water', 'renewables',
-                                 'hydroelectric', 'eco'],
-                'gas': ['gas', 'propane', 'butane'],
-                'nuclear': ['nuclear', 'atom'],
-                'coal': ['coal', 'mine', 'miner', 'charcoal', 'coalmine'],
+                'topic_energy': ['energy', 'fuel', 'power'],
+                'topic_clean_energy': ['wind', 'biomass', 'eco-friendly', 'ecology',
+                                       'clean', 'renewable', 'green', 'water', 'renewables',
+                                       'hydroelectric', 'hydro', 'eco'],
+                "topic_photovoltaics": ["photovoltaic", "solar", "sun"],
+                'topic_gas': ['gas', 'propane', 'butane'],
+                'topic_nuclear': ['nuclear', 'atom'],
+                'topic_coal': ['coal', 'mine', 'miner', 'charcoal', 'coalmine'],
             }
 
     def get_prediction(self, text: str, normalize: bool = True, threshold: float = 0.3):
