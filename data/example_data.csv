@@ -1,0 +1,15 @@
+user_id,tweet_id,user_name,user_followers,user_following,tweet_text,timestamp,retweets_num,likes_num,topic_energy,topic_clean_energy,topic_photovoltaics,topic_gas,topic_nuclear,topic_coal,topic_other,emotion_sadness,emotion_joy,emotion_love,emotion_anger,emotion_fear,emotion_surprise,mentioned_organizations,mentioned_locations
+1,101,aab,45,585,example,2020-10-10,31,44,1,1,0,0,0,0,0,1,0,1,1,1,1,"Fortum, Energa",Poland
+2,102,aab,45,585,example,2020-10-10,44,0,1,1,0,0,1,0,0,1,1,0,1,0,1,PGE,Poland
+3,103,aab,45,585,example,2020-10-10,2,50,1,0,0,0,0,1,0,0,1,0,1,1,1,,Warsaw
+4,104,aab,45,585,example,2020-10-10,28,164,0,0,0,0,0,0,1,1,0,1,0,1,0,,Oslo
+5,105,aab,45,585,example,2020-10-10,37,126,0,0,0,0,0,0,1,0,1,1,1,0,0,,"Norway, Finland"
+6,106,aab,45,585,example,2020-10-10,22,22,0,0,0,0,0,0,1,1,0,1,1,1,0,,
+7,107,aac,23,299,example,2020-10-10,19,57,1,1,1,0,1,0,0,1,0,1,0,1,0,,
+8,108,aac,23,299,example,2020-10-10,11,59,1,1,1,1,1,0,0,0,0,1,1,0,0,,
+9,109,aac,23,299,example,2020-10-10,18,16,1,0,0,0,0,0,0,1,0,0,0,0,0,,
+10,110,aac,23,299,example,2020-10-10,17,50,0,0,0,0,0,0,1,0,0,0,0,1,0,,
+11,111,aac,23,299,example,2020-10-10,8,10,1,0,1,1,1,1,0,0,0,0,0,0,0,,
+12,112,aac,23,299,example,2020-10-10,11,528,0,0,0,0,0,0,1,0,1,0,0,1,0,,
+13,113,aad,140,1820,example,2020-10-10,101,547,1,1,0,0,1,0,0,0,0,0,0,0,0,EU,
+14,114,aad,140,1820,example,2020-10-10,0,0,1,1,0,0,0,1,0,1,1,0,0,0,0,Energa,Wrocław
