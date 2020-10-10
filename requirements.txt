@@ -1,1 +1,5 @@
 ### Libraries and frameworks ###
+
+pandas~=1.1.0
+tweepy~=3.9.0
+click~=7.1.2
