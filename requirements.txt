@@ -1,3 +1,6 @@
 numpy
 ### Libraries and frameworks ###
+pandas
+matplotlib
+plotly
 streamlit
