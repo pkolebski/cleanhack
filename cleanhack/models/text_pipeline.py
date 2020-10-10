@@ -7,6 +7,7 @@ from cleanhack.models.base import Model
 from cleanhack.models.emotions import Emotions
 from cleanhack.models.ner import NamedEntityRecognizer
 from cleanhack.models.sentiment import Sentiment
+from cleanhack.models.stance import Stance
 from cleanhack.models.topic import Topics
 from cleanhack.settings import TWITTER_DATA_PATH
 
@@ -19,24 +20,35 @@ class TextPipeline(Model):
         self.emotions = Emotions() if emotions is None else emotions
         self.sentiment = Sentiment() if sentiment is None else sentiment
         self.topic = Topics()
+        self.stance = Stance()
 
     def get_prediction(self, texts: List[str], *args, **kwargs):
         topics = self._transform_topics(self.topic(texts))
         locations, organisations = self.ner(texts)
         sentiment = [sent[0]['label'].lower() for sent in self.sentiment(texts)]
         emotion = self.emotions(texts)
+        stance = self.stance(args[0])
         result = {
             'mentioned_locations': list(locations),
             'mentioned_organizations': list(organisations),
             'sentiment': sentiment,
-            'emotion': emotion
+            'emotion': emotion,
+            'stance': stance,
         }
         result.update(topics)
         return result
 
-    def predict(self, dataset: pd.DataFrame, text_col_name='text', *args, **kwargs):
+    def predict(self, dataset: pd.DataFrame, text_col_name='text', *args,
+                **kwargs):
         texts = dataset[text_col_name]
-        model_results = pd.DataFrame(self.get_prediction(texts))
+        model_results = pd.DataFrame(self.get_prediction(texts,
+                                                         dataset[[
+                                                             'topic_clean_energy',
+                                                             'topic_photovoltaics',
+                                                             'topic_gas',
+                                                             'topic_nuclear',
+                                                             'topic_coal',
+                                                             'sentiment']]))
         dataset = dataset.join(model_results)
         return dataset
 
