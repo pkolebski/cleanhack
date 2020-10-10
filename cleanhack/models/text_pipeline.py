@@ -8,12 +8,10 @@ from cleanhack.models.emotions import Emotions
 from cleanhack.models.ner import NamedEntityRecognizer
 from cleanhack.models.sentiment import Sentiment
 from cleanhack.models.topic import Topics
-from cleanhack.settings import TWITTER_DATA_PATH
+from cleanhack.settings import PROCESSED_TWITTER_DATA, TWITTER_DATA_PATH
 
 
 class TextPipeline(Model):
-    EMOTIONS_MAPPING = {'anger', 'joy'}
-
     def __init__(self, ner=None, emotions=None, sentiment=None):
         self.ner = NamedEntityRecognizer() if ner is None else ner
         self.emotions = Emotions() if emotions is None else emotions
@@ -50,11 +48,8 @@ class TextPipeline(Model):
 
 
 if __name__ == '__main__':
-    # tweets = [
-    #     "Yesterday it was raining in New York",
-    #     "Gazeta Wroclawska is the best newspaper"
-    # ]
     df = pd.read_json(TWITTER_DATA_PATH)
     pipeline_model = TextPipeline()
     pipeline_result = pipeline_model.predict(df)
     print(pipeline_result)
+    pipeline_result.to_csv(PROCESSED_TWITTER_DATA)
