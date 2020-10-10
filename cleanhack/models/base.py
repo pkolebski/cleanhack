@@ -3,6 +3,9 @@ from typing import List
 
 
 class Model:
+    def __call__(self, *args, **kwargs):
+        return self.predict(*args, **kwargs)
+
     @abstractmethod
     def get_prediction(self, text: str):
         pass

@@ -11,12 +11,16 @@ class NamedEntityRecognizer(Model):
     def __init__(self):
         self.nlp = spacy.load(DEFAULT_MODEL, disable=['tagger', 'parser'])
 
-    def get_prediction(self, tweets: List[str]):
-        extracted = {'locations': [], 'organisations': []}
-        for tweet_doc in self.nlp.pipe(tweets):
-            extracted['locations'].append(self._extract_ent(tweet_doc, 'GPE'))
-            extracted['organisations'].append(self._extract_ent(tweet_doc, 'LOC'))
-        return extracted
+    def get_prediction(self, tweet_doc):
+        locations = self._extract_ent(tweet_doc, 'GPE')
+        organisations = self._extract_ent(tweet_doc, 'ORG')
+        return locations, organisations
+
+    def predict(self, texts: List[str]):
+        ents = []
+        for doc in self.nlp.pipe(texts):
+            ents.append(self.get_prediction(doc))
+        return zip(*ents)
 
     def _extract_ent(self, doc, target_label):
         return [ent.text for ent in doc.ents if ent.label_ == target_label]
