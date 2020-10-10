@@ -25,7 +25,7 @@ class Topics(Model):
                 'coal': ['coal', 'mine', 'miner', 'charcoal', 'coalmine'],
             }
 
-    def get_prediction(self, text: str, normalize: bool = True):
+    def get_prediction(self, text: str, normalize: bool = True, threshold: float = 0.3):
         scores = defaultdict(int)
         text = re.sub(r"[^A-Za-z\'\-]+", " ", text)
         text = set([self.model.lemmatize(w) for w in text.split()])
@@ -35,7 +35,7 @@ class Topics(Model):
                     scores[k] += 1
 
         if (v_sum := sum(scores.values())) > 0 and normalize:
-            scores = {k: v / v_sum for k, v in scores.items()}
+            scores = {k: 1 if v / v_sum >= threshold else 0 for k, v in scores.items()}
         return scores
 
 
